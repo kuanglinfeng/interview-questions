@@ -88,40 +88,7 @@ border-box和content-box
 
 3. 必考：手写函数防抖和函数节流
 
-```js
-// 节流（冷却时间）
-function setCD(fn, delay, CD = false) {
-  return function () {
-  if (CD) return
-  fn()
-  CD = true
-  setTimeout(() => {
-      CD = false
-    }, delay)
-  }
-}
-
-function fn() {
-  console.log('fn')
-}
-
-var click = setCD(fn, 1000, false)
-
-button.onclick = click
-
-
-// 防抖（带着一起做）
-var timerId = null
-button.onclick = function () {
-  if (timerId) {
-    window.clearTimeout(timeId)
-  } 
-  timerId = setTimeout(() => {
-    fn()
-    timerId = null
-  }, 5000)
-}
-```
+代码：https://github.com/kuanglinfeng/interview-questions/blob/master/code/%E5%87%BD%E6%95%B0%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81.html
 
 4. 必考：手写AJAX
 

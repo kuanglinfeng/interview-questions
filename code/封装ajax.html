@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>封装Ajax</title>
+</head>
+<body>
+<script>
+  function ajax({ method, url, data }) {
+    const parse = (object) => {
+      if (!object) return object
+      const arr = []
+      for (let i in object) {
+        if (object.hasOwnProperty(i)) {
+          const str = i + '=' + object[i]
+          arr.push(str)
+        }
+      }
+      return arr.join('&')
+    }
+
+    return new Promise((resolve, reject) => {
+      method = method || 'GET'
+      url = url || ''
+      data = data || null
+      const request = new XMLHttpRequest()
+      if (method === 'GET') {
+        url = url + '?' + parse(data)
+        request.open(method, url)
+        request.send()
+      } else {
+        request.open(method, url)
+        request.setRequestHeader('Content-Type', 'application/x-www-form-urlencode')
+        request.send(parse(data))
+      }
+      request.onreadystatechange = function () {
+        if (request.readyState === 4) {
+          if (request.status >= 200 && request.status < 300 || request.status === 304) {
+            resolve(JSON.parse(request.responseText))
+          } else {
+            reject(request.status)
+          }
+        }
+      }
+    })
+  }
+</script>
+<script>
+  ajax({
+    url: 'http://api.kuanglinfeng.com/'
+  }).then(res => {
+    console.log(res)
+  })
+</script>
+</body>
+</html>
