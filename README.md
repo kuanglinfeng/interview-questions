@@ -162,7 +162,11 @@ request.send()
 
 1. 必考：事件委托
 
+代码：https://github.com/kuanglinfeng/interview-questions/blob/master/code/%E5%B0%81%E8%A3%85%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98.html
+
 2. 曾考：用mouse事件写一个可拖动的div
+
+代码：https://github.com/kuanglinfeng/interview-questions/blob/master/code/%E5%8F%AF%E6%8B%96%E5%8A%A8%E7%9A%84div.html
 
 
 
