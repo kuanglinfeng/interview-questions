@@ -355,3 +355,77 @@ a.x = a = {}
 ```js
 // (a == 1 && a == 2 && a == 3)可能为ture吗？重写toString
 ```
+
+## 超纲题
+
+1. JS垃圾回收机制
+
+- 什么是垃圾
+
+一般来说，没有被引用的对象就是垃圾，有一个例外是如果某几个对象互相引用成环但是这个环没有被全局变量引用，那么这整个环的对象都是垃圾
+
+- 如何捡垃圾（遍历和计数，只是不同的算法而已）
+
+算法有很多，其中的两种是：标记清除算法，引用计数算法
+
+标记清除算法：从全局变量开始一层一层往下标记，所有被标记到的就是不要清除的，没有被标记的就是要被清除的
+
+引用计数算法：一个对象每次被创建一个引用时就加1，再创建时就再加1，移除一个引用时就减1，如果最后引用数为0，那么就会被清除
+
+- 前端又有其特性（JS进程和DOM进程）
+
+```js
+const div = document.querySelector('xxx')
+
+div.onclick = function () {}
+
+// 仅删除dom对象
+setTimeout(() => {
+  div.remove() // 只是页面上的dom被移除，js进程依然可以引用
+  // console.log(div.onclick) // 依然可以输出
+}, 1000)
+
+// 仅删除js对象
+setTimeout(() => {
+  div = null // 只是div所有指向的对象被移除，dom依然可以被点击，说明div.onclick没有被清除
+}, 1000)
+
+// 同时删除js和dom对象
+setTimeout(() => {
+  div.remove()
+  div = null // 按理说应该div.onclick应该被清除了，但是ie有bug，ie必须 div.onclick = null 才认
+}, 1000)
+```
+
+2. EventLoop
+
+面试题：
+
+```js
+async function async1() {
+  console.log(1)
+  await async2() // Promise.resolve(async2())
+  console.log(2)
+}
+async function async2() {
+  console.log(3)
+  // 相当于
+  // return new Promise((resolve, reject) => {
+  //  console.log(3)
+  //  resolve(undefined)
+  // })
+}
+async1()
+
+new Promise((resolve) => {
+  console.log(4)
+  resolve()
+}).then(() => {
+  console.log(5)
+})
+// 1 3 4 2 5
+```
+
+
+
+
